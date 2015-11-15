@@ -1,4 +1,3 @@
-This is my own implementation of blocks for my own Language
 # Blockly
 
 Google's Blockly is a web-based, visual programming editor.  Users can drag

@@ -13,16 +13,29 @@ Blockly.Dart.ORDER_EQUALITY=10;Blockly.Dart.ORDER_LOGICAL_AND=11;
 Blockly.Dart.ORDER_LOGICAL_OR=12;Blockly.Dart.ORDER_CONDITIONAL=13;
 Blockly.Dart.ORDER_CASCADE=14;Blockly.Dart.ORDER_ASSIGNMENT=15;
 Blockly.Dart.ORDER_NONE=99;
-Blockly.Dart.init=function(a){Blockly.Dart.definitions_=Object.create(null);
+var variable = [];
+var indice;
+indice = 0;
+
+Blockly.Dart.init=function(a){
+  Blockly.Dart.definitions_=Object.create(null);
   Blockly.Dart.functionNames_=Object.create(null);
+
   Blockly.Dart.variableDB_?Blockly.Dart.variableDB_.reset():Blockly.Dart.variableDB_=new Blockly.Names(Blockly.Dart.RESERVED_WORDS_);
-  var b=[];a=Blockly.Variables.allVariables(a);for(var c=0;c<a.length;c++)b[c]="var "+Blockly.Dart.variableDB_.getName(a[c],Blockly.Variables.NAME_TYPE)+";";
-  Blockly.Dart.definitions_.variables=b.join("\n")};
-Blockly.Dart.finish=function(a){a&&(a=Blockly.Dart.prefixLines(a,Blockly.Dart.INDENT));
+  // var b=[];
+  a=Blockly.Variables.allVariables(a);
+  //for(var c=0;c<a.length;c++)b[c]="var "+Blockly.Dart.variableDB_.getName(a[c],Blockly.Variables.NAME_TYPE)+";";
+  for(var c=0;c<a.length;c++)variable[c]=Blockly.Dart.variableDB_.getName(a[c],Blockly.Variables.NAME_TYPE)+";";
+  //variable[indice] = "Nora de Sonora";
+  Blockly.Dart.definitions_.variables=variable.join("\n")};
+
+Blockly.Dart.finish=function(a){a&&(
+  a=Blockly.Dart.prefixLines(a,Blockly.Dart.INDENT));
   a="main {\n"+a+"}";var b=[],c=[],d;
   for(d in Blockly.Dart.definitions_){var e=Blockly.Dart.definitions_[d];
     e.match(/^import\s/)?b.push(e):c.push(e)}delete Blockly.Dart.definitions_;
-    delete Blockly.Dart.functionNames_;Blockly.Dart.variableDB_.reset();
+    delete Blockly.Dart.functionNames_;
+    Blockly.Dart.variableDB_.reset();
     return(b.join("\n")+"\n\n"+c.join("\n\n")).replace(/\n\n+/g,"\n\n").replace(/\n*$/,"\n\n\n")+a};
 
 Blockly.Dart.scrubNakedValue=function(a){return a+";\n"};
@@ -50,7 +63,12 @@ c+".insert("+c+".length - "+f+", "+a+");\n"}else if("RANDOM"==e){Blockly.Dart.de
 Blockly.Dart.lists_getSublist=function(a){var b=Blockly.Dart.valueToCode(a,"LIST",Blockly.Dart.ORDER_UNARY_POSTFIX)||"[]",c=a.getFieldValue("WHERE1"),d=a.getFieldValue("WHERE2"),e=Blockly.Dart.valueToCode(a,"AT1",Blockly.Dart.ORDER_NONE)||"1";a=Blockly.Dart.valueToCode(a,"AT2",Blockly.Dart.ORDER_NONE)||"1";("FIRST"==c||"FROM_START"==c&&Blockly.isNumber(e))&&("LAST"==d||"FROM_START"==d&&Blockly.isNumber(a))?(e="FIRST"==c?0:parseInt(e,10)-1,"LAST"==d?b=b+".sublist("+e+")":(a=parseInt(a,10),b=b+".sublist("+
 e+", "+a+")")):b=Blockly.Dart.provideFunction_("lists_get_sublist",["List "+Blockly.Dart.FUNCTION_NAME_PLACEHOLDER_+"(list, where1, at1, where2, at2) {","  int getAt(where, at) {","    if (where == 'FROM_START') {","      at--;","    } else if (where == 'FROM_END') {","      at = list.length - at;","    } else if (where == 'FIRST') {","      at = 0;","    } else if (where == 'LAST') {","      at = list.length - 1;","    } else {","      throw 'Unhandled option (lists_getSublist).';","    }","    return at;",
 "  }","  at1 = getAt(where1, at1);","  at2 = getAt(where2, at2) + 1;","  return list.sublist(at1, at2);","}"])+"("+b+", '"+c+"', "+e+", '"+d+"', "+a+")";return[b,Blockly.Dart.ORDER_UNARY_POSTFIX]};
-Blockly.Dart.lists_split=function(a){var b=Blockly.Dart.valueToCode(a,"INPUT",Blockly.Dart.ORDER_UNARY_POSTFIX),c=Blockly.Dart.valueToCode(a,"DELIM",Blockly.Dart.ORDER_NONE)||"''";a=a.getFieldValue("MODE");if("SPLIT"==a)b||(b="''"),a="split";else if("JOIN"==a)b||(b="[]"),a="join";else throw"Unknown mode: "+a;return[b+"."+a+"("+c+")",Blockly.Dart.ORDER_UNARY_POSTFIX]};Blockly.Dart.logic={};Blockly.Dart.controls_if=function(a){for(var b=0,c=Blockly.Dart.valueToCode(a,"IF"+b,Blockly.Dart.ORDER_NONE)||"false",d=Blockly.Dart.statementToCode(a,"DO"+b),e="if ("+c+") {\n"+d+"}",b=1;b<=a.elseifCount_;b++)c=Blockly.Dart.valueToCode(a,"IF"+b,Blockly.Dart.ORDER_NONE)||"false",d=Blockly.Dart.statementToCode(a,"DO"+b),e+=" else if ("+c+") {\n"+d+"}";a.elseCount_&&(d=Blockly.Dart.statementToCode(a,"ELSE"),e+=" else {\n"+d+"}");return e+"\n"};
+Blockly.Dart.lists_split=function(a){var b=Blockly.Dart.valueToCode(a,"INPUT",Blockly.Dart.ORDER_UNARY_POSTFIX),c=Blockly.Dart.valueToCode(a,"DELIM",Blockly.Dart.ORDER_NONE)||"''";a=a.getFieldValue("MODE");if("SPLIT"==a)b||(b="''"),a="split";else if("JOIN"==a)b||(b="[]"),a="join";else throw"Unknown mode: "+a;return[b+"."+a+"("+c+")",Blockly.Dart.ORDER_UNARY_POSTFIX]};Blockly.Dart.logic={};
+Blockly.Dart.controls_if=function(a){
+  for(var b=0,c=Blockly.Dart.valueToCode(a,"IF"+b,Blockly.Dart.ORDER_NONE)||"false",d=Blockly.Dart.statementToCode(a,"DO"+b),e="if ("+c+") {\n"+d+"}",b=1;b<=a.elseifCount_;b++)
+    c=Blockly.Dart.valueToCode(a,"IF"+b,Blockly.Dart.ORDER_NONE)||"false",d=Blockly.Dart.statementToCode(a,"DO"+b),e+=" else if ("+c+") {\n"+d+"}";
+    a.elseCount_&&(d=Blockly.Dart.statementToCode(a,"ELSE"),e+=" else {\n"+d+"}");
+    return e+"\n"};
 Blockly.Dart.logic_compare=function(a){var b={EQ:"==",NEQ:"<>",LT:"<"/*,LTE:"<="*/,GT:">"/*,GTE:">="*/}[a.getFieldValue("OP")],c="=="==b||"!="==b?Blockly.Dart.ORDER_EQUALITY:Blockly.Dart.ORDER_RELATIONAL,d=Blockly.Dart.valueToCode(a,"A",c)||"0";a=Blockly.Dart.valueToCode(a,"B",c)||"0";return[d+" "+b+" "+a,c]};
 Blockly.Dart.logic_operation=function(a){var b="AND"==a.getFieldValue("OP")?"&":"|",c="&&"==b?Blockly.Dart.ORDER_LOGICAL_AND:Blockly.Dart.ORDER_LOGICAL_OR,d=Blockly.Dart.valueToCode(a,"A",c);
 a=Blockly.Dart.valueToCode(a,"B",c);
@@ -78,8 +96,19 @@ b+" % 2 == 0";break;case "ODD":d=b+" % 2 == 1";break;case "WHOLE":d=b+" % 1 == 0
 Blockly.Dart.math_change=function(a){var b=Blockly.Dart.valueToCode(a,"DELTA",Blockly.Dart.ORDER_ADDITIVE)||"0";a=Blockly.Dart.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE);return a+" = ("+a+" is num ? "+a+" : 0) + "+b+";\n"};Blockly.Dart.math_round=Blockly.Dart.math_single;Blockly.Dart.math_trig=Blockly.Dart.math_single;
 Blockly.Dart.math_constrain=function(a){Blockly.Dart.definitions_.import_dart_math="import 'dart:math' as Math;";var b=Blockly.Dart.valueToCode(a,"VALUE",Blockly.Dart.ORDER_NONE)||"0",c=Blockly.Dart.valueToCode(a,"LOW",Blockly.Dart.ORDER_NONE)||"0";a=Blockly.Dart.valueToCode(a,"HIGH",Blockly.Dart.ORDER_NONE)||"double.INFINITY";return["Math.min(Math.max("+b+", "+c+"), "+a+")",Blockly.Dart.ORDER_UNARY_POSTFIX]};
 
-Blockly.Dart.procedures_defreturn=function(a){var b=Blockly.Dart.variableDB_.getName(a.getFieldValue("NAME"),Blockly.Procedures.NAME_TYPE),c=Blockly.Dart.statementToCode(a,"STACK");Blockly.Dart.STATEMENT_PREFIX&&(c=Blockly.Dart.prefixLines(Blockly.Dart.STATEMENT_PREFIX.replace(/%1/g,"'"+a.id+"'"),Blockly.Dart.INDENT)+c);Blockly.Dart.INFINITE_LOOP_TRAP&&(c=Blockly.Dart.INFINITE_LOOP_TRAP.replace(/%1/g,"'"+a.id+"'")+c);var d=Blockly.Dart.valueToCode(a,"RETURN",Blockly.Dart.ORDER_NONE)||"";d&&(d="  return "+
-d+";\n");for(var e=d?"dynamic":"void",f=[],g=0;g<a.arguments_.length;g++)f[g]=Blockly.Dart.variableDB_.getName(a.arguments_[g],Blockly.Variables.NAME_TYPE);c=e+" "+b+"("+f.join(", ")+") {\n"+c+d+"}";c=Blockly.Dart.scrub_(a,c);Blockly.Dart.definitions_[b]=c;return null};Blockly.Dart.procedures_defnoreturn=Blockly.Dart.procedures_defreturn;
+Blockly.Dart.procedures_defreturn=function(a){
+  var b=Blockly.Dart.variableDB_.getName(a.getFieldValue("NAME"),Blockly.Procedures.NAME_TYPE),c=Blockly.Dart.statementToCode(a,"STACK");
+  Blockly.Dart.STATEMENT_PREFIX&&(c=Blockly.Dart.prefixLines(Blockly.Dart.STATEMENT_PREFIX.replace(/%1/g,"'"+a.id+"'"),Blockly.Dart.INDENT)+c);
+  Blockly.Dart.INFINITE_LOOP_TRAP&&(c=Blockly.Dart.INFINITE_LOOP_TRAP.replace(/%1/g,"'"+a.id+"'")+c);
+  var d=Blockly.Dart.valueToCode(a,"RETURN",Blockly.Dart.ORDER_NONE)||"";
+  d&&(d="  return "+d+";\n");
+  for(var e=d?"dynamic":"void",f=[],g=0;g<a.arguments_.length;g++)
+    f[g]=Blockly.Dart.variableDB_.getName(a.arguments_[g],Blockly.Variables.NAME_TYPE);
+    c=e+" "+b+"("+f.join(", ")+") {\n"+c+d+"}";
+    c=Blockly.Dart.scrub_(a,c);
+    Blockly.Dart.definitions_[b]=c;
+    return null};
+Blockly.Dart.procedures_defnoreturn = Blockly.Dart.procedures_defreturn;
 Blockly.Dart.procedures_callreturn=function(a){for(var b=Blockly.Dart.variableDB_.getName(a.getFieldValue("NAME"),Blockly.Procedures.NAME_TYPE),c=[],d=0;d<a.arguments_.length;d++)c[d]=Blockly.Dart.valueToCode(a,"ARG"+d,Blockly.Dart.ORDER_NONE)||"null";return[b+"("+c.join(", ")+")",Blockly.Dart.ORDER_UNARY_POSTFIX]};
 Blockly.Dart.procedures_callnoreturn=function(a){for(var b=Blockly.Dart.variableDB_.getName(a.getFieldValue("NAME"),Blockly.Procedures.NAME_TYPE),c=[],d=0;d<a.arguments_.length;d++)c[d]=Blockly.Dart.valueToCode(a,"ARG"+d,Blockly.Dart.ORDER_NONE)||"null";return b+"("+c.join(", ")+");\n"};
 Blockly.Dart.procedures_ifreturn=function(a){var b="if ("+(Blockly.Dart.valueToCode(a,"CONDITION",Blockly.Dart.ORDER_NONE)||"false")+") {\n";a.hasReturnValue_?(a=Blockly.Dart.valueToCode(a,"VALUE",Blockly.Dart.ORDER_NONE)||"null",b+="  return "+a+";\n"):b+="  return;\n";return b+"}\n"};Blockly.Dart.texts={};Blockly.Dart.addReservedWords("Html,Math");Blockly.Dart.text=function(a){return[Blockly.Dart.quote_(a.getFieldValue("TEXT")),Blockly.Dart.ORDER_ATOMIC]};
@@ -87,4 +116,112 @@ Blockly.Dart.procedures_ifreturn=function(a){var b="if ("+(Blockly.Dart.valueToC
 Blockly.Dart.text_join=function(a){var b;if(0==a.itemCount_)return["''",Blockly.Dart.ORDER_ATOMIC];if(1==a.itemCount_)b=(Blockly.Dart.valueToCode(a,"ADD0",Blockly.Dart.ORDER_UNARY_POSTFIX)||"''")+".toString()";else{b=Array(a.itemCount_);for(var c=0;c<a.itemCount_;c++)b[c]=Blockly.Dart.valueToCode(a,"ADD"+c,Blockly.Dart.ORDER_NONE)||"''";b="["+b.join(",")+"].join()"}return[b,Blockly.Dart.ORDER_UNARY_POSTFIX]};
 Blockly.Dart.text_append=function(a){var b=Blockly.Dart.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE);a=Blockly.Dart.valueToCode(a,"TEXT",Blockly.Dart.ORDER_UNARY_POSTFIX)||"''";return b+" = ["+b+", "+a+"].join();\n"};
 Blockly.Dart.text_print=function(a){return"print("+(Blockly.Dart.valueToCode(a,"TEXT",Blockly.Dart.ORDER_NONE)||"\"\"")+");\n"};
-Blockly.Dart.text_prompt_ext=function(a){Blockly.Dart.definitions_.import_dart_html="import 'dart:html' as Html;";var b="Html.window.prompt("+(a.getField("TEXT")?Blockly.Dart.quote_(a.getFieldValue("TEXT")):Blockly.Dart.valueToCode(a,"TEXT",Blockly.Dart.ORDER_NONE)||"''")+", '')";"NUMBER"==a.getFieldValue("TYPE")&&(Blockly.Dart.definitions_.import_dart_math="import 'dart:math' as Math;",b="Math.parseDouble("+b+")");return[b,Blockly.Dart.ORDER_UNARY_POSTFIX]};Blockly.Dart.text_prompt=Blockly.Dart.text_prompt_ext;Blockly.Dart.variables={};Blockly.Dart.variables_get=function(a){return[Blockly.Dart.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE),Blockly.Dart.ORDER_ATOMIC]};Blockly.Dart.variables_set=function(a){var b=Blockly.Dart.valueToCode(a,"VALUE",Blockly.Dart.ORDER_ASSIGNMENT)||"0";return Blockly.Dart.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+" = "+b+";\n"};
+Blockly.Dart.text_prompt_ext=function(a){Blockly.Dart.definitions_.import_dart_html="import 'dart:html' as Html;";
+var b="Html.window.prompt("+(a.getField("TEXT")?Blockly.Dart.quote_(a.getFieldValue("TEXT")):Blockly.Dart.valueToCode(a,"TEXT",Blockly.Dart.ORDER_NONE)||"''")+", '')";"NUMBER"==a.getFieldValue("TYPE")&&(Blockly.Dart.definitions_.import_dart_math="import 'dart:math' as Math;",b="Math.parseDouble("+b+")");return[b,Blockly.Dart.ORDER_UNARY_POSTFIX]};Blockly.Dart.text_prompt=Blockly.Dart.text_prompt_ext;
+
+Blockly.Dart.variables={};
+Blockly.Dart.variables_get=function(a){return[Blockly.Dart.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE),Blockly.Dart.ORDER_ATOMIC]};
+
+Blockly.Dart.variables_set=function(a){
+  // var x = a.getFieldValue('VARTYPE');
+
+  var b=Blockly.Dart.valueToCode(a,"VALUE",Blockly.Dart.ORDER_ASSIGNMENT)||"0";
+//  return x+" "+Blockly.Dart.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+" = "+b+";\n"};
+  //return Blockly.Dart.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+" = "+b+";\n"};
+  return Blockly.Dart.variableDB_.getName(a.getFieldValue("VAR"),Blockly.Variables.NAME_TYPE)+" = "+b+";\n"};
+
+
+Blockly.Dart.vardeclaration = function(block) {
+
+  var dropdown_vartype = block.getFieldValue('varType');
+  var text_varname = block.getFieldValue('varName');
+  // TODO: Assemble Dart into code variable.
+  var code = dropdown_vartype +" "+ text_varname + ";\n";
+
+  return code;
+
+};
+
+
+Blockly.Dart.varassignment = function(block) {
+  var text_nombrevar = block.getFieldValue('nombreVar');
+  var value_name = Blockly.Dart.valueToCode(block, 'NAME', Blockly.Dart.ORDER_ATOMIC);
+  // TODO: Assemble Dart into code variable.
+  if(value_name == '') {
+    value_name = 0;
+  }
+  var code = text_nombrevar+" = "+value_name+';\n';
+  return code;
+};
+Blockly.Dart.vardeclarationglobal = function(block) {
+  var dropdown_vartype = block.getFieldValue('varType');
+  var text_varname = block.getFieldValue('varName');
+  // TODO: Assemble Dart into code variable.
+  var code = dropdown_vartype+ " " +text_varname + ";";
+
+  Blockly.Dart.definitions_[indice]=code;
+  indice += 1;
+  return null;
+};
+Blockly.Dart.varassignmentglobal = function(block) {
+  var text_nombrevar = block.getFieldValue('nombreVar');
+  var value_name = Blockly.Dart.valueToCode(block, 'NAME', Blockly.Dart.ORDER_ATOMIC);
+  // TODO: Assemble Dart into code variable.
+  if(value_name == '') {
+    value_name = 0;
+  }
+  var code = text_nombrevar+" = "+value_name+';\n';
+  Blockly.Dart.definitions_[indice]=code;
+  indice += 1;
+  return null;
+};
+
+Blockly.Dart.funcionesvoid = function(block) {
+
+  var text_namefunc = block.getFieldValue('nameFunc');
+  var text_variables = block.getFieldValue('variables');
+  var statements_statementinput = Blockly.Dart.statementToCode(block, 'statementInput');
+  // TODO: Assemble Dart into code variable.
+  var code = "void "+text_namefunc+" ("+ text_variables + ")" +"{ \n" + statements_statementinput + "\n} \n";
+
+  Blockly.Dart.definitions_[indice]=code;
+  indice += 1;
+
+  return null;
+};
+Blockly.Dart.funcionesreturn = function(block) {
+  var dropdown_typefunc = block.getFieldValue('typeFunc');
+  var text_namefunc = block.getFieldValue('nameFunc');
+  var text_variables = block.getFieldValue('variables');
+  var statements_statementinput = Blockly.Dart.statementToCode(block, 'statementInput');
+  // var value_returnfield = Blockly.Dart.valueToCode(block, 'returnField', Blockly.Dart.ORDER_ATOMIC);
+  // TODO: Assemble Dart into code variable.
+
+  var code = dropdown_typefunc +" "+text_namefunc+"("+ text_variables + ")" +"{ \n" + statements_statementinput;
+  code +=  "\n} \n";
+
+  Blockly.Dart.definitions_[indice]=code;
+  indice += 1;
+
+  return null;
+};
+
+Blockly.Dart.retorno = function(block) {
+  var text_returnvalue = block.getFieldValue('returnValue');
+  // TODO: Assemble Dart into code variable.
+  if (text_returnvalue == '') {
+    text_returnvalue = 0;
+  }
+  var code = "return " + text_returnvalue + ";";
+  return code;
+};
+
+Blockly.Dart.retornovalor = function(block) {
+  var value_name = Blockly.Dart.valueToCode(block, 'NAME', Blockly.Dart.ORDER_ATOMIC);
+  // TODO: Assemble Dart into code variable.
+  if(value_name == '') {
+    value_name = 0;
+  }
+  var code = "return " + value_name + ";";
+  return code;
+};

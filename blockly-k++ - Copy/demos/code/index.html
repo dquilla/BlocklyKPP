@@ -69,7 +69,7 @@
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
-      <block type="logic_negate"></block>
+      <!-- <block type="logic_negate"></block> -->
       <block type="logic_boolean"></block>
 	  <!--
       <block type="logic_null"></block>
@@ -304,8 +304,28 @@
     </category>
 	-->
     <sep></sep>
-    <category id="catVariables" custom="VARIABLE"></category>
+    <category name = "Variables">
+      <block type="vardeclarationglobal"></block>
+      <block type="varassignmentglobal"></block>
+      
+      <block type="vardeclaration"></block>
+      <block type="varassignment"></block>
+
+    </category>
+
+
+    <category name = "Functions">
+      <block type="funcionesvoid"></block>
+      <block type="funcionesreturn"></block>
+      <block type= "retorno"> </block>
+      <block type= "retornovalor"> </block>
+    </category>
+
+
+    <!--
     <category id="catFunctions" custom="PROCEDURE"></category>
+  -->
+
   </xml>
 
 </body>

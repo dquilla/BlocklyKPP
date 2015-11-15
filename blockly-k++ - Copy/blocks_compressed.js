@@ -178,7 +178,9 @@ this.getFieldValue("MODE"));
 return a},domToMutation:function(a){this.updateType_(a.getAttribute("mode"))}};
 Blockly.Blocks.logic={};
 Blockly.Blocks.logic.HUE=210;
-Blockly.Blocks.controls_if={init:function(){this.setHelpUrl(Blockly.Msg.CONTROLS_IF_HELPURL);
+Blockly.Blocks.controls_if={
+  init:function(){
+    this.setHelpUrl(Blockly.Msg.CONTROLS_IF_HELPURL);
   this.setColour(Blockly.Blocks.logic.HUE);
   this.appendValueInput("IF0").setCheck("Boolean").appendField(Blockly.Msg.CONTROLS_IF_MSG_IF);
   this.appendStatementInput("DO0").appendField(Blockly.Msg.CONTROLS_IF_MSG_THEN);
@@ -186,8 +188,7 @@ Blockly.Blocks.controls_if={init:function(){this.setHelpUrl(Blockly.Msg.CONTROLS
   this.setNextStatement(!0);
   this.setMutator(new Blockly.Mutator(["controls_if_elseif","controls_if_else"]));
   var a=this;
-  this.setTooltip(function(){if(a.elseifCount_||a.elseCount_){if(!a.elseifCount_&&
-a.elseCount_)return Blockly.Msg.CONTROLS_IF_TOOLTIP_2;
+  this.setTooltip(function(){if(a.elseifCount_||a.elseCount_){if(!a.elseifCount_&&a.elseCount_)return Blockly.Msg.CONTROLS_IF_TOOLTIP_2;
 if(a.elseifCount_&&!a.elseCount_)return Blockly.Msg.CONTROLS_IF_TOOLTIP_3;
 if(a.elseifCount_&&a.elseCount_)return Blockly.Msg.CONTROLS_IF_TOOLTIP_4}else return Blockly.Msg.CONTROLS_IF_TOOLTIP_1;
 return""});
@@ -201,7 +202,8 @@ for(a=1;a<=this.elseifCount_;a++)this.appendValueInput("IF"+a).setCheck("Boolean
 this.elseCount_&&this.appendStatementInput("ELSE").appendField(Blockly.Msg.CONTROLS_IF_MSG_ELSE)},decompose:function(a){var b=Blockly.Block.obtain(a,
 "controls_if_if");
 b.initSvg();
-for(var c=b.getInput("STACK").connection,d=1;d<=this.elseifCount_;d++){var e=Blockly.Block.obtain(a,"controls_if_elseif");
+for(var c=b.getInput("STACK").connection,d=1;d<=this.elseifCount_;d++){
+  var e=Blockly.Block.obtain(a,"controls_if_elseif");
 e.initSvg();
 c.connect(e.previousConnection);
 c=e.nextConnection}this.elseCount_&&(a=Blockly.Block.obtain(a,"controls_if_else"),a.initSvg(),c.connect(a.previousConnection));
@@ -231,6 +233,7 @@ a.statementConnection_=d&&d.connection.targetConnection;
 break;
 default:throw"Unknown block type.";
 }a=a.nextConnection&&a.nextConnection.targetBlock()}}};
+
 Blockly.Blocks.controls_if_if={init:function(){this.setColour(Blockly.Blocks.logic.HUE);
   this.appendDummyInput().appendField(Blockly.Msg.CONTROLS_IF_IF_TITLE_IF);
   this.appendStatementInput("STACK");
@@ -386,32 +389,57 @@ Blockly.Blocks.math_random_float={init:function(){this.setHelpUrl(Blockly.Msg.MA
   this.setOutput(!0,"Number");
   this.appendDummyInput().appendField(Blockly.Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM);
   this.setTooltip(Blockly.Msg.MATH_RANDOM_FLOAT_TOOLTIP)}};
+
 Blockly.Blocks.procedures={};
 Blockly.Blocks.procedures.HUE=290;
-Blockly.Blocks.procedures_defnoreturn={init:function(){this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
-  this.setColour(Blockly.Blocks.procedures.HUE);var a=new Blockly.FieldTextInput(Blockly.Msg.PROCEDURES_DEFNORETURN_PROCEDURE,Blockly.Procedures.rename);
-  a.setSpellcheck(!1);this.appendDummyInput().appendField(Blockly.Msg.PROCEDURES_DEFNORETURN_TITLE).appendField(a,"NAME").appendField("","PARAMS");
-  this.setMutator(new Blockly.Mutator(["procedures_mutatorarg"]));this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
-this.arguments_=[];this.setStatements_(!0);this.statementConnection_=null},validate:function(){var a=Blockly.Procedures.findLegalName(this.getFieldValue("NAME"),this);
-this.setFieldValue(a,"NAME")},setStatements_:function(a){this.hasStatements_!==a&&(a?(this.appendStatementInput("STACK").appendField(Blockly.Msg.PROCEDURES_DEFNORETURN_DO),this.getInput("RETURN")&&this.moveInputBefore("STACK","RETURN")):this.removeInput("STACK",!0),this.hasStatements_=a)},updateParams_:function(){for(var a=!1,b={},c=
-0;c<this.arguments_.length;c++){if(b["arg_"+this.arguments_[c].toLowerCase()]){a=!0;break}b["arg_"+this.arguments_[c].toLowerCase()]=!0}a?this.setWarningText(Blockly.Msg.PROCEDURES_DEF_DUPLICATE_WARNING):this.setWarningText(null);a="";this.arguments_.length&&(a=Blockly.Msg.PROCEDURES_BEFORE_PARAMS+" "+this.arguments_.join(", "));this.setFieldValue(a,"PARAMS")},mutationToDom:function(){for(var a=document.createElement("mutation"),b=0;b<this.arguments_.length;b++){var c=document.createElement("arg");
+Blockly.Blocks.procedures_defnoreturn={
+  init:function(){
+    //this.appendDummyInput()
+      //  .appendField(new Blockly.FieldDropdown([["int", "int"], ["float", "float"], ["string", "string"], ["char", "char"]]), "varType");
+
+    this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
+    this.setColour(Blockly.Blocks.procedures.HUE);
+    var a=new Blockly.FieldTextInput(Blockly.Msg.PROCEDURES_DEFNORETURN_PROCEDURE,Blockly.Procedures.rename);
+    a.setSpellcheck(!1);
+    this.appendDummyInput().appendField(Blockly.Msg.PROCEDURES_DEFNORETURN_TITLE).appendField(a,"NAME").appendField("","PARAMS");
+    this.setMutator(new Blockly.Mutator(["procedures_mutatorarg"]));this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
+    this.arguments_=[];this.setStatements_(!0);this.statementConnection_=null},
+  validate:function(){
+    var a=Blockly.Procedures.findLegalName(this.getFieldValue("NAME"),this);
+    this.setFieldValue(a,"NAME")},
+  setStatements_:function(a){
+    this.hasStatements_!==a&&(a?(this.appendStatementInput("STACK").appendField(Blockly.Msg.PROCEDURES_DEFNORETURN_DO),this.getInput("RETURN")&&this.moveInputBefore("STACK","RETURN")):this.removeInput("STACK",!0),this.hasStatements_=a)},
+  updateParams_:function(){
+    for(var a=!1,b={},c=0;c<this.arguments_.length;c++){
+      if(b["arg_"+this.arguments_[c].toLowerCase()]){a=!0;break}b["arg_"+this.arguments_[c].toLowerCase()]=!0}
+      a?this.setWarningText(Blockly.Msg.PROCEDURES_DEF_DUPLICATE_WARNING):this.setWarningText(null);a="";
+      this.arguments_.length&&(a=Blockly.Msg.PROCEDURES_BEFORE_PARAMS+" "+this.arguments_.join(", "));
+      this.setFieldValue(a,"PARAMS")},
+mutationToDom:function(){for(var a=document.createElement("mutation"),b=0;b<this.arguments_.length;b++){var c=document.createElement("arg");
 c.setAttribute("name",this.arguments_[b]);a.appendChild(c)}this.hasStatements_||a.setAttribute("statements","false");
-return a},domToMutation:function(a){this.arguments_=[];for(var b=0,c;c=a.childNodes[b];b++)"arg"==c.nodeName.toLowerCase()&&this.arguments_.push(c.getAttribute("name"));this.updateParams_();this.setStatements_("false"!==a.getAttribute("statements"))},decompose:function(a){var b=Blockly.Block.obtain(a,"procedures_mutatorcontainer");b.initSvg();this.getInput("RETURN")?b.setFieldValue(this.hasStatements_?
+return a},
+domToMutation:function(a){this.arguments_=[];for(var b=0,c;c=a.childNodes[b];b++)"arg"==c.nodeName.toLowerCase()&&this.arguments_.push(c.getAttribute("name"));this.updateParams_();this.setStatements_("false"!==a.getAttribute("statements"))},
+decompose:function(a){var b=Blockly.Block.obtain(a,"procedures_mutatorcontainer");b.initSvg();this.getInput("RETURN")?b.setFieldValue(this.hasStatements_?
 "TRUE":"FALSE","STATEMENTS"):b.getInput("STATEMENT_INPUT").setVisible(!1);
 for(var c=b.getInput("STACK").connection,d=0;d<this.arguments_.length;d++){var e=Blockly.Block.obtain(a,"procedures_mutatorarg");
 e.initSvg();e.setFieldValue(this.arguments_[d],"NAME");e.oldLocation=d;c.connect(e.previousConnection);
-c=e.nextConnection}Blockly.Procedures.mutateCallers(this.getFieldValue("NAME"),this.workspace,this.arguments_,null);return b},compose:function(a){this.arguments_=[];this.paramIds_=[];for(var b=a.getInputTargetBlock("STACK");b;)this.arguments_.push(b.getFieldValue("NAME")),
+c=e.nextConnection}Blockly.Procedures.mutateCallers(this.getFieldValue("NAME"),this.workspace,this.arguments_,null);return b},
+compose:function(a){this.arguments_=[];this.paramIds_=[];for(var b=a.getInputTargetBlock("STACK");b;)this.arguments_.push(b.getFieldValue("NAME")),
 this.paramIds_.push(b.id),b=b.nextConnection&&b.nextConnection.targetBlock();this.updateParams_();
 Blockly.Procedures.mutateCallers(this.getFieldValue("NAME"),this.workspace,this.arguments_,this.paramIds_);
 a=a.getFieldValue("STATEMENTS");
 if(null!==a&&(a="TRUE"==a,this.hasStatements_!=a))if(a)this.setStatements_(!0),a=this.getInput("STACK").connection,a.targetConnection||!this.statementConnection_||this.statementConnection_.targetConnection||this.statementConnection_.sourceBlock_.workspace!=this.workspace?
 this.statementConnection_=null:a.connect(this.statementConnection_);else{a=this.getInput("STACK").connection;
 if(this.statementConnection_=a.targetConnection)a=a.targetBlock(),a.setParent(null),a.bumpNeighbours_();
-this.setStatements_(!1)}},dispose:function(){var a=this.getFieldValue("NAME");
-Blockly.Procedures.disposeCallers(a,this.workspace);this.constructor.prototype.dispose.apply(this,arguments)},getProcedureDef:function(){return[this.getFieldValue("NAME"),this.arguments_,!1]},getVars:function(){return this.arguments_},
+this.setStatements_(!1)}},
+dispose:function(){var a=this.getFieldValue("NAME");
+Blockly.Procedures.disposeCallers(a,this.workspace);this.constructor.prototype.dispose.apply(this,arguments)},
+getProcedureDef:function(){return[this.getFieldValue("NAME"),this.arguments_,!1]},
+getVars:function(){return this.arguments_},
 renameVar:function(a,b){for(var c=!1,d=0;
   d<this.arguments_.length;d++)Blockly.Names.equals(a,this.arguments_[d])&&(this.arguments_[d]=b,c=!0);
-  if(c&&(this.updateParams_(),this.mutator.isVisible()))for(var c=this.mutator.workspace_.getAllBlocks(),d=0,e;e=c[d];d++)"procedures_mutatorarg"==e.type&&Blockly.Names.equals(a,e.getFieldValue("NAME"))&&e.setFieldValue(b,"NAME")},customContextMenu:function(a){var b={enabled:!0},c=this.getFieldValue("NAME");
+  if(c&&(this.updateParams_(),this.mutator.isVisible()))for(var c=this.mutator.workspace_.getAllBlocks(),d=0,e;e=c[d];d++)"procedures_mutatorarg"==e.type&&Blockly.Names.equals(a,e.getFieldValue("NAME"))&&e.setFieldValue(b,"NAME")},
+customContextMenu:function(a){var b={enabled:!0},c=this.getFieldValue("NAME");
   b.text=Blockly.Msg.PROCEDURES_CREATE_DO.replace("%1",c);
 var d=goog.dom.createDom("mutation");
 d.setAttribute("name",c);for(var e=0;
@@ -421,73 +449,129 @@ d.setAttribute("type",this.callType_);
 b.callback=Blockly.ContextMenu.callbackFactory(this,d);
 a.push(b);
 if(!this.isCollapsed())for(e=0;e<this.arguments_.length;e++)b={enabled:!0},c=this.arguments_[e],b.text=Blockly.Msg.VARIABLES_SET_CREATE_GET.replace("%1",c),d=goog.dom.createDom("field",
-null,c),d.setAttribute("name","VAR"),d=goog.dom.createDom("block",null,d),d.setAttribute("type","variables_get"),b.callback=Blockly.ContextMenu.callbackFactory(this,d),a.push(b)},callType_:"procedures_callnoreturn"};
-Blockly.Blocks.procedures_defreturn={init:function(){this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFRETURN_HELPURL);
-  this.setColour(Blockly.Blocks.procedures.HUE);
-  var a=new Blockly.FieldTextInput(Blockly.Msg.PROCEDURES_DEFRETURN_PROCEDURE,Blockly.Procedures.rename);
-  a.setSpellcheck(!1);
-  this.appendDummyInput().appendField(Blockly.Msg.PROCEDURES_DEFRETURN_TITLE).appendField(a,"NAME").appendField("","PARAMS");
-  this.appendValueInput("RETURN").setAlign(Blockly.ALIGN_RIGHT).appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN);
-this.setMutator(new Blockly.Mutator(["procedures_mutatorarg"]));
-this.setTooltip(Blockly.Msg.PROCEDURES_DEFRETURN_TOOLTIP);
-this.arguments_=[];this.setStatements_(!0);
-this.statementConnection_=null},setStatements_:Blockly.Blocks.procedures_defnoreturn.setStatements_,validate:Blockly.Blocks.procedures_defnoreturn.validate,updateParams_:Blockly.Blocks.procedures_defnoreturn.updateParams_,mutationToDom:Blockly.Blocks.procedures_defnoreturn.mutationToDom,domToMutation:Blockly.Blocks.procedures_defnoreturn.domToMutation,
-decompose:Blockly.Blocks.procedures_defnoreturn.decompose,compose:Blockly.Blocks.procedures_defnoreturn.compose,dispose:Blockly.Blocks.procedures_defnoreturn.dispose,getProcedureDef:function(){return[this.getFieldValue("NAME"),this.arguments_,!0]},getVars:Blockly.Blocks.procedures_defnoreturn.getVars,renameVar:Blockly.Blocks.procedures_defnoreturn.renameVar,customContextMenu:Blockly.Blocks.procedures_defnoreturn.customContextMenu,callType_:"procedures_callreturn"};
-Blockly.Blocks.procedures_mutatorcontainer={init:function(){this.setColour(Blockly.Blocks.procedures.HUE);
-  this.appendDummyInput().appendField(Blockly.Msg.PROCEDURES_MUTATORCONTAINER_TITLE);
-  this.appendStatementInput("STACK");
-  this.appendDummyInput("STATEMENT_INPUT").appendField(Blockly.Msg.PROCEDURES_ALLOW_STATEMENTS).appendField(new Blockly.FieldCheckbox("TRUE"),"STATEMENTS");
-  this.setTooltip(Blockly.Msg.PROCEDURES_MUTATORCONTAINER_TOOLTIP);
-  this.contextMenu=!1}};
+null,c),d.setAttribute("name","VAR"),d=goog.dom.createDom("block",null,d),d.setAttribute("type","variables_get"),b.callback=Blockly.ContextMenu.callbackFactory(this,d),a.push(b)},
+callType_:"procedures_callnoreturn"};
+
+Blockly.Blocks.procedures_defreturn={
+  init:function(){
+    this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFRETURN_HELPURL);
+    this.setColour(Blockly.Blocks.procedures.HUE);
+    var a=new Blockly.FieldTextInput(Blockly.Msg.PROCEDURES_DEFRETURN_PROCEDURE,Blockly.Procedures.rename);
+    a.setSpellcheck(!1);
+    this.appendDummyInput().appendField(Blockly.Msg.PROCEDURES_DEFRETURN_TITLE).appendField(a,"NAME").appendField("","PARAMS");
+    this.appendValueInput("RETURN").setAlign(Blockly.ALIGN_RIGHT).appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN);
+    this.setMutator(new Blockly.Mutator(["procedures_mutatorarg"]));
+    this.setTooltip(Blockly.Msg.PROCEDURES_DEFRETURN_TOOLTIP);
+    this.arguments_=[];
+    this.setStatements_(!0);
+    this.statementConnection_=null},setStatements_:Blockly.Blocks.procedures_defnoreturn.setStatements_,validate:Blockly.Blocks.procedures_defnoreturn.validate,updateParams_:Blockly.Blocks.procedures_defnoreturn.updateParams_,mutationToDom:Blockly.Blocks.procedures_defnoreturn.mutationToDom,domToMutation:Blockly.Blocks.procedures_defnoreturn.domToMutation,
+    decompose:Blockly.Blocks.procedures_defnoreturn.decompose,compose:Blockly.Blocks.procedures_defnoreturn.compose,dispose:Blockly.Blocks.procedures_defnoreturn.dispose,getProcedureDef:function(){return[this.getFieldValue("NAME"),this.arguments_,!0]},getVars:Blockly.Blocks.procedures_defnoreturn.getVars,renameVar:Blockly.Blocks.procedures_defnoreturn.renameVar,customContextMenu:Blockly.Blocks.procedures_defnoreturn.customContextMenu,callType_:"procedures_callreturn"};
+    Blockly.Blocks.procedures_mutatorcontainer={init:function(){this.setColour(Blockly.Blocks.procedures.HUE);
+    this.appendDummyInput().appendField(Blockly.Msg.PROCEDURES_MUTATORCONTAINER_TITLE);
+    this.appendStatementInput("STACK");
+    this.appendDummyInput("STATEMENT_INPUT").appendField(Blockly.Msg.PROCEDURES_ALLOW_STATEMENTS).appendField(new Blockly.FieldCheckbox("TRUE"),"STATEMENTS");
+    this.setTooltip(Blockly.Msg.PROCEDURES_MUTATORCONTAINER_TOOLTIP);
+    this.contextMenu=!1}};
 Blockly.Blocks.procedures_mutatorarg={init:function(){this.setColour(Blockly.Blocks.procedures.HUE);
   this.appendDummyInput().appendField(Blockly.Msg.PROCEDURES_MUTATORARG_TITLE).appendField(new Blockly.FieldTextInput("x",this.validator_),"NAME");
   this.setPreviousStatement(!0);
   this.setNextStatement(!0);
   this.setTooltip(Blockly.Msg.PROCEDURES_MUTATORARG_TOOLTIP);
   this.contextMenu=!1},validator_:function(a){return(a=a.replace(/[\s\xa0]+/g," ").replace(/^ | $/g,""))||null}};
-Blockly.Blocks.procedures_callnoreturn={init:function(){this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLNORETURN_HELPURL);
-  this.setColour(Blockly.Blocks.procedures.HUE);
-  this.appendDummyInput("TOPROW").appendField(Blockly.Msg.PROCEDURES_CALLNORETURN_CALL).appendField("","NAME");
-  this.setPreviousStatement(!0);
-  this.setNextStatement(!0);
-  this.arguments_=[];
-  this.quarkConnections_={};
-  this.quarkArguments_=null},getProcedureCall:function(){return this.getFieldValue("NAME")},renameProcedure:function(a,b){Blockly.Names.equals(a,
-this.getProcedureCall())&&(this.setFieldValue(b,"NAME"),this.setTooltip((this.outputConnection?Blockly.Msg.PROCEDURES_CALLRETURN_TOOLTIP:Blockly.Msg.PROCEDURES_CALLNORETURN_TOOLTIP).replace("%1",b)))},setProcedureParameters:function(a,b){if(b)if(goog.array.equals(this.arguments_,a))this.quarkArguments_=b;
-  else{this.setCollapsed(!1);if(b.length!=a.length)throw"Error: paramNames and paramIds must be the same length.";
-this.quarkArguments_||(this.quarkConnections_={},a.join("\n")==this.arguments_.join("\n")?
-this.quarkArguments_=b:this.quarkArguments_=[]);var c=this.rendered;
-this.rendered=!1;for(var d=this.arguments_.length-1;0<=d;d--){var e=this.getInput("ARG"+d);
-if(e){var f=e.connection.targetConnection;
-  this.quarkConnections_[this.quarkArguments_[d]]=f;
-  this.removeInput("ARG"+d)}}this.arguments_=[].concat(a);this.renderArgs_();
-if(this.quarkArguments_=b)for(d=0;d<this.arguments_.length;d++){var e=this.getInput("ARG"+d),g=this.quarkArguments_[d];g in this.quarkConnections_&&(f=this.quarkConnections_[g],
-!f||f.targetConnection||f.sourceBlock_.workspace!=this.workspace?delete this.quarkConnections_[g]:e.connection.connect(f))}(this.rendered=c)&&this.render()}else this.quarkConnections_={},this.quarkArguments_=null},renderArgs_:function(){for(var a=0;a<this.arguments_.length;a++){var b=this.appendValueInput("ARG"+a).setAlign(Blockly.ALIGN_RIGHT).appendField(this.arguments_[a]);b.init()}if(b=this.getInput("TOPROW"))this.arguments_.length?this.getField("WITH")||(b.appendField(Blockly.Msg.PROCEDURES_CALL_BEFORE_PARAMS,
-"WITH"),b.init()):this.getField("WITH")&&b.removeField("WITH")},mutationToDom:function(){var a=document.createElement("mutation");
-a.setAttribute("name",this.getProcedureCall());for(var b=0;b<this.arguments_.length;b++){var c=document.createElement("arg");c.setAttribute("name",this.arguments_[b]);
-a.appendChild(c)}return a},domToMutation:function(a){var b=a.getAttribute("name");this.setFieldValue(b,"NAME");this.setTooltip((this.outputConnection?Blockly.Msg.PROCEDURES_CALLRETURN_TOOLTIP:Blockly.Msg.PROCEDURES_CALLNORETURN_TOOLTIP).replace("%1",
-b));if((b=Blockly.Procedures.getDefinition(b,this.workspace))&&b.mutator&&b.mutator.isVisible())this.setProcedureParameters(b.arguments_,b.paramIds_);
-else{for(var b=[],c=0,d;d=a.childNodes[c];c++)"arg"==d.nodeName.toLowerCase()&&b.push(d.getAttribute("name"));
-this.setProcedureParameters(b,b)}},renameVar:function(a,b){for(var c=0;c<this.arguments_.length;c++)Blockly.Names.equals(a,this.arguments_[c])&&(this.arguments_[c]=b,this.getInput("ARG"+c).fieldRow[0].setText(b))},customContextMenu:function(a){var b=
-{enabled:!0};
-b.text=Blockly.Msg.PROCEDURES_HIGHLIGHT_DEF;
-var c=this.getProcedureCall(),d=this.workspace;
-b.callback=function(){var a=Blockly.Procedures.getDefinition(c,d);
-  a&&a.select()};a.push(b)}};
-Blockly.Blocks.procedures_callreturn={init:function(){this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLRETURN_HELPURL);
-  this.setColour(Blockly.Blocks.procedures.HUE);this.appendDummyInput("TOPROW").appendField(Blockly.Msg.PROCEDURES_CALLRETURN_CALL).appendField("","NAME");
-  this.setOutput(!0);this.arguments_=[];this.quarkConnections_={};this.quarkArguments_=null},getProcedureCall:Blockly.Blocks.procedures_callnoreturn.getProcedureCall,renameProcedure:Blockly.Blocks.procedures_callnoreturn.renameProcedure,
-setProcedureParameters:Blockly.Blocks.procedures_callnoreturn.setProcedureParameters,renderArgs_:Blockly.Blocks.procedures_callnoreturn.renderArgs_,mutationToDom:Blockly.Blocks.procedures_callnoreturn.mutationToDom,domToMutation:Blockly.Blocks.procedures_callnoreturn.domToMutation,renameVar:Blockly.Blocks.procedures_callnoreturn.renameVar,customContextMenu:Blockly.Blocks.procedures_callnoreturn.customContextMenu};
-Blockly.Blocks.procedures_ifreturn={init:function(){this.setHelpUrl("http://c2.com/cgi/wiki?GuardClause");
-this.setColour(Blockly.Blocks.procedures.HUE);
-this.appendValueInput("CONDITION").setCheck("Boolean").appendField(Blockly.Msg.CONTROLS_IF_MSG_IF);
-this.appendValueInput("VALUE").appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN);
-this.setInputsInline(!0);this.setPreviousStatement(!0);this.setNextStatement(!0);this.setTooltip(Blockly.Msg.PROCEDURES_IFRETURN_TOOLTIP);
-this.hasReturnValue_=!0},mutationToDom:function(){var a=
-document.createElement("mutation");a.setAttribute("value",Number(this.hasReturnValue_));
-return a},domToMutation:function(a){this.hasReturnValue_=1==a.getAttribute("value");
-this.hasReturnValue_||(this.removeInput("VALUE"),this.appendDummyInput("VALUE").appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN))},onchange:function(){var a=!1,b=this;do{if("procedures_defnoreturn"==b.type||"procedures_defreturn"==b.type){a=!0;break}b=b.getSurroundParent()}while(b);a?("procedures_defnoreturn"==b.type&&this.hasReturnValue_?
-(this.removeInput("VALUE"),this.appendDummyInput("VALUE").appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN),this.hasReturnValue_=!1):"procedures_defreturn"!=b.type||this.hasReturnValue_||(this.removeInput("VALUE"),this.appendValueInput("VALUE").appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN),this.hasReturnValue_=!0),this.setWarningText(null)):this.setWarningText(Blockly.Msg.PROCEDURES_IFRETURN_WARNING)}};
+Blockly.Blocks.procedures_callnoreturn={
+  init:function(){
+    this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLNORETURN_HELPURL);
+    this.setColour(Blockly.Blocks.procedures.HUE);
+    this.appendDummyInput("TOPROW").appendField(Blockly.Msg.PROCEDURES_CALLNORETURN_CALL).appendField("","NAME");
+    this.setPreviousStatement(!0);
+    this.setNextStatement(!0);
+    this.arguments_=[];
+    this.quarkConnections_={};
+    this.quarkArguments_=null},
+
+    getProcedureCall:function(){
+      return this.getFieldValue("NAME")},
+      renameProcedure:function(a,b){
+        Blockly.Names.equals(a,this.getProcedureCall())&&(this.setFieldValue(b,"NAME"),
+        this.setTooltip((this.outputConnection?Blockly.Msg.PROCEDURES_CALLRETURN_TOOLTIP:Blockly.Msg.PROCEDURES_CALLNORETURN_TOOLTIP).replace("%1",b)))},
+        setProcedureParameters:function(a,b){if(b)if(goog.array.equals(this.arguments_,a))this.quarkArguments_=b;
+          else{this.setCollapsed(!1);if(b.length!=a.length)throw"Error: paramNames and paramIds must be the same length.";
+          this.quarkArguments_||(this.quarkConnections_={},a.join("\n")==this.arguments_.join("\n")?
+          this.quarkArguments_=b:this.quarkArguments_=[]);
+          var c=this.rendered;
+          this.rendered=!1;
+          for(var d=this.arguments_.length-1;0<=d;d--){var e=this.getInput("ARG"+d);
+
+          if(e){var f=e.connection.targetConnection;
+            this.quarkConnections_[this.quarkArguments_[d]]=f;
+            this.removeInput("ARG"+d)}}this.arguments_=[].concat(a);this.renderArgs_();
+          if(this.quarkArguments_=b)
+            for(d=0;d<this.arguments_.length;d++){var e=this.getInput("ARG"+d),g=this.quarkArguments_[d];g in this.quarkConnections_&&(f=this.quarkConnections_[g],!f||f.targetConnection||f.sourceBlock_.workspace!=this.workspace?delete this.quarkConnections_[g]:e.connection.connect(f))}(this.rendered=c)&&this.render()}else this.quarkConnections_={},this.quarkArguments_=null},renderArgs_:function(){for(var a=0;a<this.arguments_.length;a++){var b=this.appendValueInput("ARG"+a).setAlign(Blockly.ALIGN_RIGHT).appendField(this.arguments_[a]);
+            b.init()}if(b=this.getInput("TOPROW"))this.arguments_.length?this.getField("WITH")||(b.appendField(Blockly.Msg.PROCEDURES_CALL_BEFORE_PARAMS,"WITH"),b.init()):this.getField("WITH")&&b.removeField("WITH")},
+            mutationToDom:function(){
+              var a=document.createElement("mutation");
+              a.setAttribute("name",this.getProcedureCall());
+              for(var b=0;b<this.arguments_.length;b++){
+                var c=document.createElement("arg");
+                c.setAttribute("name",this.arguments_[b]);
+                a.appendChild(c)}
+              return a},
+              domToMutation:function(a){var b=a.getAttribute("name");
+              this.setFieldValue(b,"NAME");
+              this.setTooltip((this.outputConnection?Blockly.Msg.PROCEDURES_CALLRETURN_TOOLTIP:Blockly.Msg.PROCEDURES_CALLNORETURN_TOOLTIP).replace("%1",b));
+              if((b=Blockly.Procedures.getDefinition(b,this.workspace))&&b.mutator&&b.mutator.isVisible())this.setProcedureParameters(b.arguments_,b.paramIds_);
+              else{for(var b=[],c=0,d;d=a.childNodes[c];c++)"arg"==d.nodeName.toLowerCase()&&b.push(d.getAttribute("name"));
+              this.setProcedureParameters(b,b)}},
+              renameVar:function(a,b){
+                for(var c=0;c<this.arguments_.length;c++)Blockly.Names.equals(a,this.arguments_[c])&&(this.arguments_[c]=b,this.getInput("ARG"+c).fieldRow[0].setText(b))},
+                customContextMenu:function(a){var b={enabled:!0};
+                b.text=Blockly.Msg.PROCEDURES_HIGHLIGHT_DEF;
+                var c=this.getProcedureCall(),d=this.workspace;
+                b.callback=function(){
+                  var a=Blockly.Procedures.getDefinition(c,d);
+                  a&&a.select()};a.push(b)}};
+
+Blockly.Blocks.procedures_callreturn={
+  init:function(){
+    this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLRETURN_HELPURL);
+    this.setColour(Blockly.Blocks.procedures.HUE);
+    this.appendDummyInput("TOPROW").appendField(Blockly.Msg.PROCEDURES_CALLRETURN_CALL).appendField("","NAME");
+    this.setOutput(!0);
+    this.arguments_=[];
+    this.quarkConnections_={};
+    this.quarkArguments_=null},
+    getProcedureCall:Blockly.Blocks.procedures_callnoreturn.getProcedureCall,
+    renameProcedure:Blockly.Blocks.procedures_callnoreturn.renameProcedure,
+    setProcedureParameters:Blockly.Blocks.procedures_callnoreturn.setProcedureParameters,
+    renderArgs_:Blockly.Blocks.procedures_callnoreturn.renderArgs_,
+    mutationToDom:Blockly.Blocks.procedures_callnoreturn.mutationToDom,
+    domToMutation:Blockly.Blocks.procedures_callnoreturn.domToMutation,
+    renameVar:Blockly.Blocks.procedures_callnoreturn.renameVar,
+    customContextMenu:Blockly.Blocks.procedures_callnoreturn.customContextMenu
+  };
+
+Blockly.Blocks.procedures_ifreturn={
+  init:function(){
+    this.setHelpUrl("http://c2.com/cgi/wiki?GuardClause");
+    this.setColour(Blockly.Blocks.procedures.HUE);
+    this.appendValueInput("CONDITION").setCheck("Boolean").appendField(Blockly.Msg.CONTROLS_IF_MSG_IF);
+    this.appendValueInput("VALUE").appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN);
+    this.setInputsInline(!0);this.setPreviousStatement(!0);this.setNextStatement(!0);this.setTooltip(Blockly.Msg.PROCEDURES_IFRETURN_TOOLTIP);
+    this.hasReturnValue_=!0},mutationToDom:
+    function(){var a=
+      document.createElement("mutation");
+      a.setAttribute("value",Number(this.hasReturnValue_));
+      return a},domToMutation:
+    function(a){
+      this.hasReturnValue_=1==a.getAttribute("value");
+      this.hasReturnValue_||(this.removeInput("VALUE"),this.appendDummyInput("VALUE").appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN))},
+      onchange:function(){
+        var a=!1,b=this;
+        do{
+          if("procedures_defnoreturn"==b.type||"procedures_defreturn"==b.type){a=!0;break}b=b.getSurroundParent()
+        }while(b);
+        a?("procedures_defnoreturn"==b.type&&this.hasReturnValue_?(this.removeInput("VALUE"),this.appendDummyInput("VALUE").appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN),this.hasReturnValue_=!1):"procedures_defreturn"!=b.type||this.hasReturnValue_||(this.removeInput("VALUE"),this.appendValueInput("VALUE").appendField(Blockly.Msg.PROCEDURES_DEFRETURN_RETURN),this.hasReturnValue_=!0),this.setWarningText(null)):this.setWarningText(Blockly.Msg.PROCEDURES_IFRETURN_WARNING)}};
+
 Blockly.Blocks.texts={};
 Blockly.Blocks.texts.HUE=160;
 Blockly.Blocks.text={init:function(){this.setHelpUrl(Blockly.Msg.TEXT_TEXT_HELPURL);
@@ -521,6 +605,7 @@ a=a.nextConnection&&a.nextConnection.targetBlock()}},updateShape_:function(){if(
 else for(var a=0;this.getInput("ADD"+a);)this.removeInput("ADD"+a),a++;
 if(0==this.itemCount_)this.appendDummyInput("EMPTY").appendField(this.newQuote_(!0)).appendField(this.newQuote_(!1));
 else for(a=0;a<this.itemCount_;a++){var b=this.appendValueInput("ADD"+a);0==a&&b.appendField(Blockly.Msg.TEXT_JOIN_TITLE_CREATEWITH)}},newQuote_:Blockly.Blocks.text.newQuote_};
+
 Blockly.Blocks.text_create_join_container={init:function(){this.setColour(Blockly.Blocks.texts.HUE);
   this.appendDummyInput().appendField(Blockly.Msg.TEXT_CREATE_JOIN_TITLE_JOIN);
   this.appendStatementInput("STACK");
@@ -597,19 +682,23 @@ if(e!=b){var f=this.sourceBlock_;f.updateAt_(a,e);f.setFieldValue(c,"WHERE"+a);
 return null}});
 this.getInput("AT"+a).appendField(c,"WHERE"+a);
 1==a&&this.moveInputBefore("AT1","AT2")}};
+
 Blockly.Blocks.text_changeCase={init:function(){var a=[[Blockly.Msg.TEXT_CHANGECASE_OPERATOR_UPPERCASE,"UPPERCASE"],[Blockly.Msg.TEXT_CHANGECASE_OPERATOR_LOWERCASE,"LOWERCASE"],[Blockly.Msg.TEXT_CHANGECASE_OPERATOR_TITLECASE,"TITLECASE"]];
 this.setHelpUrl(Blockly.Msg.TEXT_CHANGECASE_HELPURL);
 this.setColour(Blockly.Blocks.texts.HUE);
 this.appendValueInput("TEXT").setCheck("String").appendField(new Blockly.FieldDropdown(a),"CASE");
 this.setOutput(!0,"String");
 this.setTooltip(Blockly.Msg.TEXT_CHANGECASE_TOOLTIP)}};
+
 Blockly.Blocks.text_trim={init:function(){var a=[[Blockly.Msg.TEXT_TRIM_OPERATOR_BOTH,"BOTH"],[Blockly.Msg.TEXT_TRIM_OPERATOR_LEFT,"LEFT"],[Blockly.Msg.TEXT_TRIM_OPERATOR_RIGHT,"RIGHT"]];
 this.setHelpUrl(Blockly.Msg.TEXT_TRIM_HELPURL);
 this.setColour(Blockly.Blocks.texts.HUE);
 this.appendValueInput("TEXT").setCheck("String").appendField(new Blockly.FieldDropdown(a),"MODE");
 this.setOutput(!0,"String");
 this.setTooltip(Blockly.Msg.TEXT_TRIM_TOOLTIP)}};
+
 Blockly.Blocks.text_print={init:function(){this.jsonInit({message0:Blockly.Msg.TEXT_PRINT_TITLE,args0:[{type:"input_value",name:"TEXT"}],previousStatement:null,nextStatement:null,colour:Blockly.Blocks.texts.HUE,tooltip:Blockly.Msg.TEXT_PRINT_TOOLTIP,helpUrl:Blockly.Msg.TEXT_PRINT_HELPURL})}};
+
 Blockly.Blocks.text_prompt_ext={init:function(){var a=[[Blockly.Msg.TEXT_PROMPT_TYPE_TEXT,"TEXT"],[Blockly.Msg.TEXT_PROMPT_TYPE_NUMBER,"NUMBER"]];
 this.setHelpUrl(Blockly.Msg.TEXT_PROMPT_HELPURL);
 this.setColour(Blockly.Blocks.texts.HUE);var b=this,a=new Blockly.FieldDropdown(a,function(a){b.updateType_(a)});
@@ -619,6 +708,7 @@ this.setTooltip(function(){return"TEXT"==b.getFieldValue("TYPE")?Blockly.Msg.TEX
 updateType_:function(a){"NUMBER"==a?this.outputConnection.setCheck("Number"):this.outputConnection.setCheck("String")},mutationToDom:function(){var a=document.createElement("mutation");
 a.setAttribute("type",this.getFieldValue("TYPE"));
 return a},domToMutation:function(a){this.updateType_(a.getAttribute("type"))}};
+
 Blockly.Blocks.text_prompt={init:function(){var a=[[Blockly.Msg.TEXT_PROMPT_TYPE_TEXT,"TEXT"],[Blockly.Msg.TEXT_PROMPT_TYPE_NUMBER,"NUMBER"]],b=this;
 this.setHelpUrl(Blockly.Msg.TEXT_PROMPT_HELPURL);
 this.setColour(Blockly.Blocks.texts.HUE);
@@ -628,6 +718,7 @@ this.setOutput(!0,"String");
 b=this;
 this.setTooltip(function(){return"TEXT"==
 b.getFieldValue("TYPE")?Blockly.Msg.TEXT_PROMPT_TOOLTIP_TEXT:Blockly.Msg.TEXT_PROMPT_TOOLTIP_NUMBER})},newQuote_:Blockly.Blocks.text.newQuote_,updateType_:Blockly.Blocks.text_prompt_ext.updateType_,mutationToDom:Blockly.Blocks.text_prompt_ext.mutationToDom,domToMutation:Blockly.Blocks.text_prompt_ext.domToMutation};
+
 Blockly.Blocks.variables={};
 Blockly.Blocks.variables.HUE=330;
 Blockly.Blocks.variables_get={init:function(){this.setHelpUrl(Blockly.Msg.VARIABLES_GET_HELPURL);
@@ -635,8 +726,10 @@ Blockly.Blocks.variables_get={init:function(){this.setHelpUrl(Blockly.Msg.VARIAB
   this.appendDummyInput().appendField(new Blockly.FieldVariable(Blockly.Msg.VARIABLES_DEFAULT_NAME),"VAR");
   this.setOutput(!0);
   this.setTooltip(Blockly.Msg.VARIABLES_GET_TOOLTIP);
-  this.contextMenuMsg_=Blockly.Msg.VARIABLES_GET_CREATE_SET},getVars:function(){return[this.getFieldValue("VAR")]},renameVar:function(a,b){Blockly.Names.equals(a,this.getFieldValue("VAR"))&&
-this.setFieldValue(b,"VAR")},contextMenuType_:"variables_set",customContextMenu:function(a){var b={enabled:!0},c=this.getFieldValue("VAR");
+  this.contextMenuMsg_=Blockly.Msg.VARIABLES_GET_CREATE_SET},
+  getVars:function(){return[this.getFieldValue("VAR")]},renameVar:function(a,b){Blockly.Names.equals(a,this.getFieldValue("VAR"))&&
+this.setFieldValue(b,"VAR")},contextMenuType_:"variables_set",
+customContextMenu:function(a){var b={enabled:!0},c=this.getFieldValue("VAR");
 b.text=this.contextMenuMsg_.replace("%1",c);
 c=goog.dom.createDom("field",null,c);
 c.setAttribute("name","VAR");
@@ -644,6 +737,133 @@ c=goog.dom.createDom("block",null,c);
 c.setAttribute("type",this.contextMenuType_);
 b.callback=Blockly.ContextMenu.callbackFactory(this,c);
 a.push(b)}};
-Blockly.Blocks.variables_set={init:function(){this.jsonInit({message0:Blockly.Msg.VARIABLES_SET,args0:[{type:"field_variable",name:"VAR",variable:Blockly.Msg.VARIABLES_DEFAULT_NAME},{type:"input_value",name:"VALUE"}],previousStatement:null,nextStatement:null,colour:Blockly.Blocks.variables.HUE,tooltip:Blockly.Msg.VARIABLES_SET_TOOLTIP,helpUrl:Blockly.Msg.VARIABLES_SET_HELPURL});
-this.contextMenuMsg_=Blockly.Msg.VARIABLES_SET_CREATE_GET},getVars:function(){return[this.getFieldValue("VAR")]},renameVar:function(a,
-b){Blockly.Names.equals(a,this.getFieldValue("VAR"))&&this.setFieldValue(b,"VAR")},contextMenuType_:"variables_get",customContextMenu:Blockly.Blocks.variables_get.customContextMenu};
+
+Blockly.Blocks.variables_set={
+  init:function(){
+    //this.appendDummyInput().appendField(new Blockly.FieldDropdown([["int", "int"], ["float", "float"], ["string", "string"], ["char", "char"]]), "VARTYPE");
+
+    this.jsonInit({message0:Blockly.Msg.VARIABLES_SET,args0:[{type:"field_variable",name:"VAR",variable:Blockly.Msg.VARIABLES_DEFAULT_NAME},
+    {type:"input_value",name:"VALUE"}],
+    previousStatement:null,
+    nextStatement:null,
+    colour:Blockly.Blocks.variables.HUE,
+    tooltip:Blockly.Msg.VARIABLES_SET_TOOLTIP,
+    helpUrl:Blockly.Msg.VARIABLES_SET_HELPURL});
+    this.contextMenuMsg_=Blockly.Msg.VARIABLES_SET_CREATE_GET},
+
+    getVars:function(){return[this.getFieldValue("VAR")]},
+    // getVars:function(){return["hola"]},
+    renameVar:function(a,b){Blockly.Names.equals(a,this.getFieldValue("VAR"))&&this.setFieldValue(b,"VAR")},
+    contextMenuType_:"variables_get",customContextMenu:Blockly.Blocks.variables_get.customContextMenu
+};
+
+Blockly.Blocks.vardeclaration = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("set")
+        .appendField(new Blockly.FieldDropdown([["int", "int"], ["float", "float"], ["string", "string"], ["char", "char"]]), "varType")
+        .appendField(new Blockly.FieldTextInput("varName"), "varName");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+Blockly.Blocks.varassignment = {
+  init: function() {
+      this.appendValueInput("NAME")
+          .setCheck(["Number", "String"])
+          .appendField("set")
+          .appendField(new Blockly.FieldTextInput("varName"), "nombreVar")
+          .appendField("to");
+      this.setColour(330);
+      this.setTooltip('');
+      this.setHelpUrl('http://www.example.com/');
+    }
+};
+
+Blockly.Blocks.varassignmentglobal = {
+  init: function() {
+      this.appendValueInput("NAME")
+          .setCheck(["Number", "String"])
+          .appendField("set global")
+          .appendField(new Blockly.FieldTextInput("varName"), "nombreVar")
+          .appendField("to");
+      this.setColour(330);
+      this.setTooltip('');
+      this.setHelpUrl('http://www.example.com/');
+    }
+};
+
+
+Blockly.Blocks.funcionesvoid = {
+  init: function() {
+
+    this.appendStatementInput("statementInput")
+        .setCheck(null)
+        .appendField("void function name:")
+        //.appendField(new Blockly.FieldDropdown([["int", "int"], ["float", "float"], ["string", "string"], ["char", "char"]]), "typeFunc")
+        .appendField(new Blockly.FieldTextInput("name_Func"), "nameFunc")
+        .appendField("arguments:")
+        .appendField(new Blockly.FieldTextInput("int varInt, float varFloat"), "variables");
+    //this.appendDummyInput("TOPROW").appendField(Blockly.Msg.PROCEDURES_CALLRETURN_CALL).appendField("","NAME");
+    this.setColour(290);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+Blockly.Blocks.funcionesreturn = {
+  init: function() {
+    this.appendStatementInput("statementInput")
+        .setCheck(null)
+
+        .appendField(new Blockly.FieldDropdown([["int", "int"], ["float", "float"], ["string", "string"], ["char", "char"]]), "typeFunc")
+        .appendField("function name:")
+        .appendField(new Blockly.FieldTextInput("name_Func"), "nameFunc")
+        .appendField("arguments:")
+        .appendField(new Blockly.FieldTextInput("int varName, float varName"), "variables");
+    this.setColour(290);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+Blockly.Blocks.retorno = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("return")
+        .appendField(new Blockly.FieldTextInput(""), "returnValue");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(290);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+Blockly.Blocks.retornovalor = {
+  init: function() {
+    this.appendValueInput("NAME")
+        .appendField("return")
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(290);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+Blockly.Blocks.vardeclarationglobal = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("global")
+        .appendField(new Blockly.FieldDropdown([["int", "int"], ["float", "float"], ["string", "string"], ["char", "char"]]), "varType")
+        .appendField(new Blockly.FieldTextInput("varName"), "varName");
+    this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
