@@ -1,3 +1,5 @@
+# Blockly implementation for KPP Language
+Blockly code was modified in order to work for our own programming language, KPP.
 # Blockly
 
 Google's Blockly is a web-based, visual programming editor.  Users can drag
