@@ -202,10 +202,10 @@ Code.importPrettify = function() {
   //<script src="../prettify.js"></script>
   var link = document.createElement('link');
   link.setAttribute('rel', 'stylesheet');
-  link.setAttribute('href', '../prettify.css');
+  link.setAttribute('href', 'prettify.css');
   document.head.appendChild(link);
   var script = document.createElement('script');
-  script.setAttribute('src', '../prettify.js');
+  script.setAttribute('src', 'prettify.js');
   document.head.appendChild(script);
 };
 
@@ -373,7 +373,7 @@ Code.init = function() {
            length: 3,
            colour: '#ccc',
            snap: true},
-       media: '../../media/',
+       media: 'media/',
        rtl: rtl,
        toolbox: toolbox,
        zoom: {enabled: true}
@@ -512,6 +512,6 @@ Code.discard = function() {
 // Load the Code demo's language strings.
 document.write('<script src="msg/' + Code.LANG + '.js"></script>\n');
 // Load Blockly's language strings.
-document.write('<script src="../../msg/js/' + Code.LANG + '.js"></script>\n');
+document.write('<script src="msg/js/' + Code.LANG + '.js"></script>\n');
 
 window.addEventListener('load', Code.init);
