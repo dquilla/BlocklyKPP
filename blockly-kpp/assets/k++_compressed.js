@@ -212,7 +212,7 @@ Blockly.Dart.retorno = function(block) {
   if (text_returnvalue == '') {
     text_returnvalue = 0;
   }
-  var code = "return " + text_returnvalue + ";";
+  var code = "return " + text_returnvalue + ";\n";
   return code;
 };
 
@@ -222,6 +222,21 @@ Blockly.Dart.retornovalor = function(block) {
   if(value_name == '') {
     value_name = 0;
   }
-  var code = "return " + value_name + ";";
+  var code = "return " + value_name + ";\n";
+  return code;
+};
+
+Blockly.Dart.printvariable = function(block) {
+  var text_variable = block.getFieldValue('variable');
+  // TODO: Assemble Dart into code variable.
+  var code = "print("+text_variable+");\n";
+  return code;
+};
+
+Blockly.Dart.inputblock = function(block) {
+  var text_varname = block.getFieldValue('varName');
+  var dropdown_vartype = block.getFieldValue('varType');
+  // TODO: Assemble Dart into code variable.
+  var code = text_varname + " = " + "input("+ dropdown_vartype + ");\n";
   return code;
 };

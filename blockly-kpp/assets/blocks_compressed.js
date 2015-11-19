@@ -869,3 +869,29 @@ Blockly.Blocks.vardeclarationglobal = {
     this.setHelpUrl('http://www.example.com/');
   }
 };
+Blockly.Blocks.printvariable = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("print variable:")
+        .appendField(new Blockly.FieldTextInput("variable"), "variable");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+Blockly.Blocks.inputblock = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldTextInput("varName"), "varName")
+        .appendField("= input of type")
+        .appendField(new Blockly.FieldDropdown([["int", "int"], ["float", "float"], ["char", "char"], ["string", "string"]]), "varType");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
