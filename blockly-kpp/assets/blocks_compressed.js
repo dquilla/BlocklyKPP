@@ -774,7 +774,7 @@ Blockly.Blocks.vardeclaration = {
 Blockly.Blocks.varassignment = {
   init: function() {
       this.appendValueInput("NAME")
-          .setCheck(["Number", "String"])
+          //.setCheck(["Number", "String"])
           .appendField("set")
           .appendField(new Blockly.FieldTextInput("varName"), "nombreVar")
           .appendField("to");
@@ -890,6 +890,18 @@ Blockly.Blocks.inputblock = {
         .appendField(new Blockly.FieldDropdown([["int", "int"], ["float", "float"], ["char", "char"], ["string", "string"]]), "varType");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
+    this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+
+Blockly.Blocks.assignexpression = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldTextInput("expr"), "expr");
+    this.setOutput(true, null);
     this.setColour(330);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');

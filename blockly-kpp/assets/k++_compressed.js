@@ -240,3 +240,13 @@ Blockly.Dart.inputblock = function(block) {
   var code = text_varname + " = " + "input("+ dropdown_vartype + ");\n";
   return code;
 };
+
+Blockly.Dart.assignexpression = function(block) {
+  var text_name = block.getFieldValue('expr');
+  // TODO: Assemble Dart into code variable.
+  var code = text_name;
+  // TODO: Change ORDER_NONE to the correct strength.
+
+  //return code;
+  return [code, Blockly.Dart.ORDER_NONE];
+};
