@@ -49,8 +49,8 @@ if(!a.outputConnection||!a.outputConnection.targetConnection){var d=a.getComment
 
 
 Blockly.Dart.controls_if=function(a){
-  for(var b=0,c=Blockly.Dart.valueToCode(a,"IF"+b,Blockly.Dart.ORDER_NONE)||"false",d=Blockly.Dart.statementToCode(a,"DO"+b),e="if ("+c+") {\n"+d+"}",b=1;b<=a.elseifCount_;b++)
-    c=Blockly.Dart.valueToCode(a,"IF"+b,Blockly.Dart.ORDER_NONE)||"false",d=Blockly.Dart.statementToCode(a,"DO"+b),e+=" else if ("+c+") {\n"+d+"}";
+  for(var b=0,c=Blockly.Dart.valueToCode(a,"IF"+b,Blockly.Dart.ORDER_NONE)||"0",d=Blockly.Dart.statementToCode(a,"DO"+b),e="if ("+c+") {\n"+d+"}",b=1;b<=a.elseifCount_;b++)
+    c=Blockly.Dart.valueToCode(a,"IF"+b,Blockly.Dart.ORDER_NONE)||"0",d=Blockly.Dart.statementToCode(a,"DO"+b),e+=" else if ("+c+") {\n"+d+"}";
     a.elseCount_&&(d=Blockly.Dart.statementToCode(a,"ELSE"),e+=" else {\n"+d+"}");
     return e+"\n"};
 Blockly.Dart.logic_compare=function(a){var b={EQ:"==",NEQ:"<>",LT:"<"/*,LTE:"<="*/,GT:">"/*,GTE:">="*/}[a.getFieldValue("OP")],c="=="==b||"!="==b?Blockly.Dart.ORDER_EQUALITY:Blockly.Dart.ORDER_RELATIONAL,d=Blockly.Dart.valueToCode(a,"A",c)||"0";a=Blockly.Dart.valueToCode(a,"B",c)||"0";return[d+" "+b+" "+a,c]};
@@ -60,10 +60,10 @@ if(d||a){var e="&&"==b?"1":"0";d||(d=e);a||(a=e)}else a=d="0";return[d+" "+b+" "
 Blockly.Dart.logic_negate=function(a){var b=Blockly.Dart.ORDER_UNARY_PREFIX;return["!"+(Blockly.Dart.valueToCode(a,"BOOL",b)||"true"),b]};
 Blockly.Dart.logic_boolean=function(a){return["TRUE"==a.getFieldValue("BOOL")?"1":"0",Blockly.Dart.ORDER_ATOMIC]};
 Blockly.Dart.logic_null=function(a){return["null",Blockly.Dart.ORDER_ATOMIC]};
-Blockly.Dart.logic_ternary=function(a){var b=Blockly.Dart.valueToCode(a,"IF",Blockly.Dart.ORDER_CONDITIONAL)||"false",c=Blockly.Dart.valueToCode(a,"THEN",Blockly.Dart.ORDER_CONDITIONAL)||"null";a=Blockly.Dart.valueToCode(a,"ELSE",Blockly.Dart.ORDER_CONDITIONAL)||"null";return[b+" ? "+c+" : "+a,Blockly.Dart.ORDER_CONDITIONAL]};Blockly.Dart.loops={};
+Blockly.Dart.logic_ternary=function(a){var b=Blockly.Dart.valueToCode(a,"IF",Blockly.Dart.ORDER_CONDITIONAL)||"0",c=Blockly.Dart.valueToCode(a,"THEN",Blockly.Dart.ORDER_CONDITIONAL)||"null";a=Blockly.Dart.valueToCode(a,"ELSE",Blockly.Dart.ORDER_CONDITIONAL)||"null";return[b+" ? "+c+" : "+a,Blockly.Dart.ORDER_CONDITIONAL]};Blockly.Dart.loops={};
 Blockly.Dart.controls_repeat_ext=function(a){var b=a.getField("TIMES")?String(Number(a.getFieldValue("TIMES"))):Blockly.Dart.valueToCode(a,"TIMES",Blockly.Dart.ORDER_ASSIGNMENT)||"0",c=Blockly.Dart.statementToCode(a,"DO"),c=Blockly.Dart.addLoopTrap(c,a.id);a="";var d=Blockly.Dart.variableDB_.getDistinctName("count",Blockly.Variables.NAME_TYPE),e=b;b.match(/^\w+$/)||Blockly.isNumber(b)||(e=Blockly.Dart.variableDB_.getDistinctName("repeat_end",Blockly.Variables.NAME_TYPE),a+="var "+e+" = "+b+";\n");
 return a+("for (int "+d+" = 0; "+d+" < "+e+"; "+d+"++) {\n"+c+"}\n")};Blockly.Dart.controls_repeat=Blockly.Dart.controls_repeat_ext;
-Blockly.Dart.controls_whileUntil=function(a){var b="UNTIL"==a.getFieldValue("MODE"),c=Blockly.Dart.valueToCode(a,"BOOL",b?Blockly.Dart.ORDER_UNARY_PREFIX:Blockly.Dart.ORDER_NONE)||"false",d=Blockly.Dart.statementToCode(a,"DO"),d=Blockly.Dart.addLoopTrap(d,a.id);b&&(c="!"+c);return"while ("+c+") {\n"+d+"}\n"};
+Blockly.Dart.controls_whileUntil=function(a){var b="UNTIL"==a.getFieldValue("MODE"),c=Blockly.Dart.valueToCode(a,"BOOL",b?Blockly.Dart.ORDER_UNARY_PREFIX:Blockly.Dart.ORDER_NONE)||"0",d=Blockly.Dart.statementToCode(a,"DO"),d=Blockly.Dart.addLoopTrap(d,a.id);b&&(c="!"+c);return"while ("+c+") {\n"+d+"}\n"};
 Blockly.Dart.controls_flow_statements=function(a){switch(a.getFieldValue("FLOW")){case "BREAK":return"break;\n";case "CONTINUE":return"continue;\n"}throw"Unknown flow statement.";};Blockly.Dart.math={};Blockly.Dart.addReservedWords("Math");
 Blockly.Dart.math_number=function(a){a=window.parseFloat(a.getFieldValue("NUM"));return[a,0>a?Blockly.Dart.ORDER_UNARY_PREFIX:Blockly.Dart.ORDER_ATOMIC]};
 Blockly.Dart.math_arithmetic=function(a){var b={ADD:[" + ",Blockly.Dart.ORDER_ADDITIVE],MINUS:[" - ",Blockly.Dart.ORDER_ADDITIVE],MULTIPLY:[" * ",Blockly.Dart.ORDER_MULTIPLICATIVE],DIVIDE:[" / ",Blockly.Dart.ORDER_MULTIPLICATIVE]}[a.getFieldValue("OP")],c=b[0],b=b[1],d=Blockly.Dart.valueToCode(a,"A",b)||"0";
@@ -226,6 +226,15 @@ Blockly.Dart.inputblock = function(block) {
 };
 
 Blockly.Dart.assignexpression = function(block) {
+  var text_name = block.getFieldValue('expr');
+  // TODO: Assemble Dart into code variable.
+  var code = text_name;
+  // TODO: Change ORDER_NONE to the correct strength.
+
+  //return code;
+  return [code, Blockly.Dart.ORDER_NONE];
+};
+Blockly.Dart.assignexpression2 = function(block) {
   var text_name = block.getFieldValue('expr');
   // TODO: Assemble Dart into code variable.
   var code = text_name;

@@ -135,7 +135,16 @@ Blockly.Blocks.logic_ternary={init:function(){this.setHelpUrl(Blockly.Msg.LOGIC_
 this.getInputTargetBlock("THEN"),b=this.getInputTargetBlock("ELSE"),c=this.outputConnection.targetConnection;
 if((a||b)&&c)for(var d=0;2>d;d++){var e=1==d?a:b;e&&!e.outputConnection.checkType_(c)&&(c===this.prevParentConnection_?(this.setParent(null),c.sourceBlock_.bumpNeighbours_()):(e.setParent(null),e.bumpNeighbours_()))}this.prevParentConnection_=c}};Blockly.Blocks.loops={};Blockly.Blocks.loops.HUE=120;Blockly.Blocks.controls_repeat_ext={init:function(){this.jsonInit({message0:Blockly.Msg.CONTROLS_REPEAT_TITLE,args0:[{type:"input_value",name:"TIMES",check:"Number"}],previousStatement:null,nextStatement:null,colour:Blockly.Blocks.loops.HUE,tooltip:Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,helpUrl:Blockly.Msg.CONTROLS_REPEAT_HELPURL});this.appendStatementInput("DO").appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO)}};
 Blockly.Blocks.controls_repeat={init:function(){this.jsonInit({message0:Blockly.Msg.CONTROLS_REPEAT_TITLE,args0:[{type:"field_input",name:"TIMES",text:"10"}],previousStatement:null,nextStatement:null,colour:Blockly.Blocks.loops.HUE,tooltip:Blockly.Msg.CONTROLS_REPEAT_TOOLTIP,helpUrl:Blockly.Msg.CONTROLS_REPEAT_HELPURL});this.appendStatementInput("DO").appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);this.getField("TIMES").setChangeHandler(Blockly.FieldTextInput.nonnegativeIntegerValidator)}};
-Blockly.Blocks.controls_whileUntil={init:function(){var a=[[Blockly.Msg.CONTROLS_WHILEUNTIL_OPERATOR_WHILE,"WHILE"],[Blockly.Msg.CONTROLS_WHILEUNTIL_OPERATOR_UNTIL,"UNTIL"]];this.setHelpUrl(Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL);this.setColour(Blockly.Blocks.loops.HUE);this.appendValueInput("BOOL").setCheck("Boolean").appendField(new Blockly.FieldDropdown(a),"MODE");this.appendStatementInput("DO").appendField(Blockly.Msg.CONTROLS_WHILEUNTIL_INPUT_DO);this.setPreviousStatement(!0);this.setNextStatement(!0);
+Blockly.Blocks.controls_whileUntil={
+  init:function(){
+  // var a=[[Blockly.Msg.CONTROLS_WHILEUNTIL_OPERATOR_WHILE,"WHILE"],[Blockly.Msg.CONTROLS_WHILEUNTIL_OPERATOR_UNTIL,"UNTIL"]];
+  var a=[[Blockly.Msg.CONTROLS_WHILEUNTIL_OPERATOR_WHILE,"WHILE"]];
+this.setHelpUrl(Blockly.Msg.CONTROLS_WHILEUNTIL_HELPURL);
+this.setColour(Blockly.Blocks.loops.HUE);
+this.appendValueInput("BOOL").setCheck("Boolean").appendField(new Blockly.FieldDropdown(a),"MODE");
+this.appendStatementInput("DO").appendField(Blockly.Msg.CONTROLS_WHILEUNTIL_INPUT_DO);
+this.setPreviousStatement(!0);
+this.setNextStatement(!0);
 var b=this;
 this.setTooltip(function(){var a=b.getFieldValue("MODE");
 return{WHILE:Blockly.Msg.CONTROLS_WHILEUNTIL_TOOLTIP_WHILE,UNTIL:Blockly.Msg.CONTROLS_WHILEUNTIL_TOOLTIP_UNTIL}[a]})}};
@@ -749,6 +758,16 @@ Blockly.Blocks.assignexpression = {
         .appendField(new Blockly.FieldTextInput("expr"), "expr");
     this.setOutput(true, null);
     this.setColour(330);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+Blockly.Blocks.assignexpression2 = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldTextInput("expr"), "expr");
+    this.setOutput(true, null);
+    this.setColour(120);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
   }
